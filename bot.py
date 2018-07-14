@@ -17,6 +17,19 @@ def echo(bot, update):
 def error(bot, update, error):
     logger.warning('Update "%s" caused error "%s"', update, error)
 
+    
+while (1):
+     print "AAA"
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 # Set these variable to the appropriate values
 TOKEN = "545193892:AAF-i-kxjJBeEiVXL1PokHCCEGNnQ1sOXFo"
