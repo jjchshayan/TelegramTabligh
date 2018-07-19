@@ -1,21 +1,3 @@
-
-
-
-import logging
-import os
-
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-
-
-def start(bot, update):
-    update.effective_message.reply_text("Hi!")
-
-
-def echo(bot, update):
-    update.effective_message.reply_text(update.effective_message.text)
-
-def error(bot, update, error):
-    logger.warning('Update "%s" caused error "%s"', update, error)
 import os
 from flask import Flask
 
