@@ -63,6 +63,7 @@ def setWebhook():
 if __name__ == '__main__':
     setWebhook()
     time.sleep(5)
-    app.run(host='0.0.0.0',
-            port=PORT,
-            debug=True)
+    app.run(debug=True, use_reloader=True)
+   # app.run(host='0.0.0.0',
+      #      port=PORT,
+       #     debug=True)
