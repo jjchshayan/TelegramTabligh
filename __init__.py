@@ -51,11 +51,11 @@ def hello():
 def setWebhook():
     print("AA")
     # add handlers
-    # updater.start_webhook(listen="0.0.0.0",
+    updater.start_webhook(listen="0.0.0.0",
     #                       port=PORT,
     #                       url_path=TOKEN)
-    # updater.bot.set_webhook("https://shayantt.herokuapp.com/" + TOKEN)
-    # updater.idle()
+    updater.bot.set_webhook("https://shayantt.herokuapp.com/" + TOKEN)
+    updater.idle()
 
    # // bot.setWebhook(url='https://%s:%s/%s' % (HOST, PORT, TOKEN)
    #               )
