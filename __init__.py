@@ -42,4 +42,5 @@ if __name__ == "__main__":
                           port=int(PORT),
                           url_path=TOKEN)
     updater.bot.setWebhook("https://{}.herokuapp.com/{}".format(NAME, TOKEN))
+    print("SSS");
     updater.idle()
