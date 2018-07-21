@@ -42,8 +42,8 @@ def hello():
 
 @app.route('/' + TOKEN, methods=['GET'])
 def webhook():
-    update = telegram.update.Update.de_json(request.get_json(force=True))
-    bot.send_message(chat_id=update.message.chat_id, text="I'm a bot, please talk to me!")
+    #update = telegram.update.Update.de_json(request.get_json(force=True))
+    #bot.send_message(chat_id=update.message.chat_id, text="I'm a bot, please talk to me!")
 
     return 'OK'
 
