@@ -1,6 +1,6 @@
 import logging
 import os
-
+import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 
@@ -28,6 +28,7 @@ if __name__ == "__main__":
                         level=logging.INFO)
     logger = logging.getLogger(__name__)
 
+    bot = telegram.Bot(TOKEN)
     # Set up the Updater
     updater = Updater(TOKEN)
     dp = updater.dispatcher
@@ -35,7 +36,8 @@ if __name__ == "__main__":
     dp.add_handler(CommandHandler('start', start))
     dp.add_handler(MessageHandler(Filters.text, echo))
     dp.add_error_handler(error)
-
+    
+    bot.sendMessage(chat_id="@Shayantut", parse_mode="HTML", text="ADASD")
     # Start the webhook
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
