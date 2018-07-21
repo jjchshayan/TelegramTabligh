@@ -21,7 +21,7 @@ if __name__ == "__main__":
     NAME = "shayantt"
 
     # Port is given by Heroku
-    PORT = os.environ.get('PORT')
+    PORT = 8443
 
     # Enable logging
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
