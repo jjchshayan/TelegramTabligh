@@ -18,10 +18,10 @@ def error(bot, update, error):
 if __name__ == "__main__":
     # Set these variable to the appropriate values
     TOKEN = '545193892:AAF-i-kxjJBeEiVXL1PokHCCEGNnQ1sOXFo'
-    NAME = 'shayantt.herokuapp.com'  # Same FQDN used when generating SSL Cert
+    NAME = 'shayantt'  # Same FQDN used when generating SSL Cert
     PORT = 8443
 
-
+    print("SSS");
 
 
     # Enable logging
