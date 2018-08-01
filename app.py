@@ -28,7 +28,7 @@ def echo(bot, update):
     try:
       # print(update)
       user_id = update['message']['chat']['id']
-      user_name = update['message']['chat']['first_name'] + update['message']['chat']['last_name']
+      user_name = update['message']['chat']['first_name'] 
 
       file_id = bot.get_file(update['message']['photo'][2]['file_id'])
       url =file_id["file_path"]
