@@ -39,7 +39,7 @@ def echo(bot, update):
           print(r.text)
           bot.send_message(chat_id=update.message.chat_id, text="خطا لطفا مجددا تلاش نمایید")
     except:
-         print(update)
+        print(update)
         bot.send_message(chat_id=update.message.chat_id, text="لطفا فقط عکس اضافه کنید")
 
 
