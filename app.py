@@ -1,5 +1,7 @@
 from telegram.ext import Updater
 from telegram import bot
+from emoji import emojize
+import json
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
