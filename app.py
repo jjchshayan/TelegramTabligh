@@ -42,7 +42,7 @@ def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, 
                           data={'id': str(user_id), 'type': str(1), "lastpost": str(date)})
     else:
         r = requests.post("http://shayan2020.ir/Api/TelegramTabligh/user.php",
-                          data={'id': str(user_id), 'type': str(0), "lastpost": str(date)}
+                          data={'id': str(user_id), 'type': str(0), "lastpost": str(date)})
 
     response = json.loads(r.text)
     if response["items"][0]['errorcode'] == 3:
