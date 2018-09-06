@@ -1,133 +1,85 @@
 from telegram.ext import Updater
 from telegram import bot
-from emoji import emojize
-import json
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
-
-# updater = Updater(token='628591499:AAEM8_wsBtPsldKKLCr-ozepC5RId02nZGo')
-updater = Updater(token='628591499:AAEM8_wsBtPsldKKLCr-ozepC5RId02nZGo')
+updater = Updater(token='660812730:AAEGP-xXkMKoplHR6YsUECqXB8diNgvlfbs')
 dispatcher = updater.dispatcher
 
 import logging
 import requests
-
 state = 1
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 
-
-# def start(bot, update):
-#     bot.send_message(chat_id=update.message.chat_id, text="سلام خوش آمدید لطفا عکس گرفته شده را اضافه نمایید")
-#     state = 2
-# 
-# 
-# from telegram.ext import CommandHandler
-# 
-# start_handler = CommandHandler('start', start)
-# dispatcher.add_handler(start_handler)
+def start(bot, update):
+    bot.send_message(chat_id=update.message.chat_id, text="سلام خوش آمدید لطفا عکس گرفته شده را اضافه نمایید")
+    state=2
 
 
-def manageBot(bot, user_id):
-    bot.kickChatMember('-1001198407963', user_id, 3710)
+from telegram.ext import CommandHandler
 
-
-def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id, chat_id):
-    bot.deleteMessage(chat_id, message_id)
-    print(isOldMemberEqualNewMember, chat_id)
-    if not isOldMemberEqualNewMember:
-        r = requests.post("http://shayan2020.ir/Api/TelegramTabligh/user.php",
-                          data={'id': str(user_id), 'type': str(1), "lastpost": str(date)})
-    else:
-        r = requests.post("http://shayan2020.ir/Api/TelegramTabligh/user.php",
-                          data={'id': str(user_id), 'type': str(0), "lastpost": str(date)})
-
-    response = json.loads(r.text)
-    if response["items"][0]['errorcode'] == 3:
-        rose = emojize(":gift:", use_aliases=True)
-        s = rose + str(first_name) + 'خوش آمدید ' + rose
-        s += "\n" + " برای ثبت پیام لطفا ۵ نفر را اضافه کنید " + "\n"
-        s += "افراد متوجه دعوت کردن شما نخواهند شد" + " \n"
-        bot.send_message(chat_id=chat_id,
-                         text=s)
-    else:
-        print()
-
-
-def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
-    r = requests.post("http://shayan2020.ir/Api/TelegramTabligh/user.php",
-                      data={'id': str(user_id), 'type': str(0), "lastpost": str(date)})
-    print(r.text)
-    rr = json.loads(r.text)
-
-    if len(rr["items"]) > 0:
-        if rr["items"][0]['errorcode'] == 1:
-            userinvite = rr["items"][0]['userinvite']
-            bot.deleteMessage(chat_id, message_id)
-            rose = emojize(":gift:", use_aliases=True)
-            s = rose + str(first_name) + ' کاربر ' + rose + "\n"
-            s += "لطفا افراد بیشتری را دعوت کنید" + ("(" + str(userinvite) + "نفر)")
-            bot.send_message(chat_id=chat_id,
-                             text=s)
-        elif rr["items"][0]['errorcode'] == 4:
-            userinvite = rr["items"][0]['diff']
-            bot.deleteMessage(chat_id, message_id)
-            rose = emojize(":gift:", use_aliases=True)
-            s = rose + str(first_name) + ' کاربر ' + rose + "\n"
-            s += "برای ارسال پست جدید لطفا صبر کنید" + ("(" + str(userinvite) + "دقیقه دیگر)")
-            bot.send_message(chat_id=chat_id,
-                             text=s)
-        else:
-            print(r.text)
+start_handler = CommandHandler('start', start)
+dispatcher.add_handler(start_handler)
 
 
 def echo(bot, update):
-    print(update)
+     #my_id = 504335145
+    try:
+      # print(update)
+      user_id = update['message']['chat']['id']
+      user_name = update['message']['chat']['first_name'] 
 
-    user_id = update['message']['from_user']['id']
-    date = update['message']['date']
-    #
-    # print(user_id, date)
+      file_id = bot.get_file(update['message']['photo'][2]['file_id'])
+      url =file_id["file_path"]
+      r = requests.post("http://shayan2020.ir/Api/Telegram/UploadData.php", data={'url': url,'filename':str(user_id)+'_'+str(user_name)})
+      if(r.text =="ok"):
+          bot.send_message(chat_id=update.message.chat_id, text="با تشکر از شما برای اضافه کردن عکسی دیگر دگمه /start را مجددا تایپ نمایید")
+      else:
+          print(r.text)
+          bot.send_message(chat_id=update.message.chat_id, text="خطا لطفا مجددا تلاش نمایید")
+    except:
+        print(update)
+        bot.send_message(chat_id=update.message.chat_id, text="لطفا فقط عکس اضافه کنید")
 
-
-    # 0 is no update count 1 is update count
-
-
-    # print((update['message']['left_chat_member']), "OOO")
-    if update['message']['left_chat_member'] is not None:
-        message_id = update['message']['message_id']
-        bot.deleteMessage(update.message.chat_id, message_id)
-
-    else:
-
-        if len(update['message']['new_chat_members']):
-            # print(type(update['message']['new_chat_members'][0]['is_bot']))
-            is_bot = update['message']['new_chat_members'][0]['is_bot']
-            if is_bot:
-                user_id = update['message']['new_chat_members'][0]['id']
-                manageBot(bot, user_id)
-            else:
-                message_id = update['message']['message_id']
-                isOldMemberEqualNewMember = update['message']['from_user']['id'] == \
-                                            update['message']['new_chat_members'][0]['id']
-                first_name = update['message']['new_chat_members'][0]['first_name']
-                manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id,
-                              update.message.chat_id)
-
-        else:
-
-            first_name = update['message']['from_user']['first_name']
-            message_id = update['message']['message_id']
-
-            manageExistUser(bot, user_id, date, first_name, message_id, update.message.chat_id)
 
 
 from telegram.ext import MessageHandler, Filters
 
 echo_handler = MessageHandler(Filters.all, echo)
 dispatcher.add_handler(echo_handler)
+
+
+# def caps(bot, update, args=''):
+#     text_caps = '   '.join(args).upper()
+#     bot.send_message(chat_id=update.message.chat_id, text=text_caps)
+#
+#
+# caps_handler = CommandHandler('caps', caps, pass_args=True)
+# dispatcher.add_handler(caps_handler)
+
+# from telegram import InlineQueryResultArticle, InputTextMessageContent
+#
+#
+# def inline_caps(bot, update):
+#     query = update.inline_query.query
+#     if not query:
+#         return
+#     results = list()
+#     results.append(
+#         InlineQueryResultArticle(
+#             id=query.upper(),
+#             title='Caps',
+#             input_message_content=InputTextMessageContent(query.upper())
+#         )
+#     )
+#     bot.answer_inline_query(update.inline_query.id, results)
+
+
+# from telegram.ext import InlineQueryHandler
+#
+# inline_caps_handler = InlineQueryHandler(inline_caps)
+# dispatcher.add_handler(inline_caps_handler)
 
 
 def unknown(bot, update):
@@ -137,4 +89,16 @@ def unknown(bot, update):
 unknown_handler = MessageHandler(Filters.command, unknown)
 dispatcher.add_handler(unknown_handler)
 
+#
+# TOKEN    = '545193892:AAF-i-kxjJBeEiVXL1PokHCCEGNnQ1sOXFo'
+# HOST     = 'shayantt.herokuapp.com' # Same FQDN used when generating SSL Cert
+# PORT     = 8443
+# updater.start_webhook(listen="0.0.0.0",
+#                       port=PORT,
+#                       # url_path=TOKEN)
+# updater.bot.set_webhook("https://shayantt.herokuapp.com/" + TOKEN)
+# updater.idle()
+
+
 updater.start_polling()
+
