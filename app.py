@@ -19,15 +19,15 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 
 
-def start(bot, update):
-    bot.send_message(chat_id=update.message.chat_id, text="سلام خوش آمدید لطفا عکس گرفته شده را اضافه نمایید")
-    state = 2
-
-
-from telegram.ext import CommandHandler
-
-start_handler = CommandHandler('start', start)
-dispatcher.add_handler(start_handler)
+# def start(bot, update):
+#     bot.send_message(chat_id=update.message.chat_id, text="سلام خوش آمدید لطفا عکس گرفته شده را اضافه نمایید")
+#     state = 2
+# 
+# 
+# from telegram.ext import CommandHandler
+# 
+# start_handler = CommandHandler('start', start)
+# dispatcher.add_handler(start_handler)
 
 
 def manageBot(bot, user_id):
