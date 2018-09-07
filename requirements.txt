@@ -3,4 +3,4 @@ gunicorn
 python-telegram-bot
 json
 requests
-emoji 0.4.5
+emoji==0.4.5
