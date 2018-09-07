@@ -1,6 +1,5 @@
 Flask
 gunicorn
 python-telegram-bot
-json
 requests
 emoji==0.4.5
