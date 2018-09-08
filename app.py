@@ -84,7 +84,7 @@ def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
 
 
 def echo(bot, update):
-#     print(update)
+    print(update)
 
     user_id = update['message']['from_user']['id']
     date = update['message']['date']
