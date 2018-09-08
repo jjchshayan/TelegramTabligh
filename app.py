@@ -34,15 +34,13 @@ def manageBot(bot, user_id):
     bot.kickChatMember('-1001198407963', user_id, 3710)
 
 
-def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id_new, user_id, chat_id,
-                  userinvitecount):
+def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id_new, user_id, chat_id):
 #     print(isOldMemberEqualNewMember, chat_id)
     if not isOldMemberEqualNewMember:
         r = requests.post("http://shayan2020.ir/Api/TelegramTabligh/user.php",
                           data={'id': str(user_id_new), 'type': str(1), "lastpost": str(date)})
-        r2 = requests.post("http://shayan2020.ir/Api/TelegramTabligh/userinviteupdate.php",
-                           data={'id': str(user_id), "count": str(userinvitecount)})
-#         print(r2.text)
+        
+      
     else:
         r = requests.post("http://shayan2020.ir/Api/TelegramTabligh/user.php",
                           data={'id': str(user_id_new), 'type': str(0), "lastpost": str(date)})
@@ -115,8 +113,12 @@ def echo(bot, update):
                     manageBot(bot, user_id)
                 else:
                     message_id = update['message']['message_id']
+                    userinvitecount=len(update['message']['new_chat_members'])
                     if u == 0:
                        bot.deleteMessage(update.message.chat_id, message_id)
+                       r2 = requests.post("http://shayan2020.ir/Api/TelegramTabligh/userinviteupdate.php",
+                                          data={'id': str(user_id), "count": str(userinvitecount)})
+                       #         print(r2.text)
                     isOldMemberEqualNewMember = update['message']['from_user']['id'] == \
                                                 update['message']['new_chat_members'][u]['id']
                     first_name = update['message']['new_chat_members'][u]['first_name']
