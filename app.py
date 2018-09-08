@@ -105,7 +105,7 @@ def echo(bot, update):
 
         if len(update['message']['new_chat_members']):
             # print(type(update['message']['new_chat_members'][0]['is_bot']))
-           for k in range(0,len(update['message']['new_chat_members'])) 
+           for k in range(0,len(update['message']['new_chat_members'])) :
             is_bot = update['message']['new_chat_members'][k]['is_bot']
             if is_bot:
                 user_id = update['message']['new_chat_members'][k]['id']
