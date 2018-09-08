@@ -36,18 +36,18 @@ def manageBot(bot, user_id):
 
 def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id_new, user_id, chat_id,
                   userinvitecount):
-    print(isOldMemberEqualNewMember, chat_id)
+#     print(isOldMemberEqualNewMember, chat_id)
     if not isOldMemberEqualNewMember:
         r = requests.post("http://shayan2020.ir/Api/TelegramTabligh/user.php",
                           data={'id': str(user_id_new), 'type': str(1), "lastpost": str(date)})
         r2 = requests.post("http://shayan2020.ir/Api/TelegramTabligh/userinviteupdate.php",
                            data={'id': str(user_id), "count": str(userinvitecount)})
-        print(r2.text)
+#         print(r2.text)
     else:
         r = requests.post("http://shayan2020.ir/Api/TelegramTabligh/user.php",
                           data={'id': str(user_id_new), 'type': str(0), "lastpost": str(date)})
 
-    print(r.text)
+#     print(r.text)
     response = json.loads(r.text)
     if response["items"][0]['errorcode'] == 3:
         rose = emojize(":gift:", use_aliases=True)
@@ -63,7 +63,7 @@ def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, 
 def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
     r = requests.post("http://shayan2020.ir/Api/TelegramTabligh/user.php",
                       data={'id': str(user_id), 'type': str(0), "lastpost": str(date)})
-    print(r.text)
+#     print(r.text)
     rr = json.loads(r.text)
 
     if len(rr["items"]) > 0:
@@ -88,7 +88,7 @@ def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
 
 
 def echo(bot, update):
-    print(update)
+#     print(update)
 
     user_id = update['message']['from_user']['id']
     date = update['message']['date']
