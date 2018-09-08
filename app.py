@@ -30,8 +30,9 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 # dispatcher.add_handler(start_handler)
 
 
-def manageBot(bot, user_id):
-    bot.kickChatMember('-1001198407963', user_id, 3710)
+def manageBot(bot, user_id,chat_id,message_id):
+    bot.kickChatMember(chat_id, user_id, 3710)
+    bot.deleteMessage(chat_id, message_id)
 
 
 def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id, chat_id):
@@ -107,7 +108,8 @@ def echo(bot, update):
             is_bot = update['message']['new_chat_members'][0]['is_bot']
             if is_bot:
                 user_id = update['message']['new_chat_members'][0]['id']
-                manageBot(bot, user_id)
+                message_id = update['message']['message_id']
+                manageBot(bot, user_id,update.message.chat_id,message_id)
             else:
                 message_id = update['message']['message_id']
                 isOldMemberEqualNewMember = update['message']['from_user']['id'] == \
