@@ -2,7 +2,8 @@ from telegram.ext import Updater
 from telegram import bot
 from emoji import emojize
 import json
-#!/usr/bin/env python
+
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 
@@ -18,7 +19,6 @@ state = 1
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 
-
 # def start(bot, update):
 #     bot.send_message(chat_id=update.message.chat_id, text="سلام خوش آمدید لطفا عکس گرفته شده را اضافه نمایید")
 #     state = 2
@@ -30,21 +30,24 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 # dispatcher.add_handler(start_handler)
 
 
-def manageBot(bot, user_id,chat_id,message_id):
-    bot.kickChatMember(chat_id, user_id, 3710)
-    bot.deleteMessage(chat_id, message_id)
+def manageBot(bot, user_id):
+    bot.kickChatMember('-1001198407963', user_id, 3710)
 
 
-def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id, chat_id):
-    bot.deleteMessage(chat_id, message_id)
-#     print(isOldMemberEqualNewMember, chat_id)
+def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id_new, user_id, chat_id,
+                  userinvitecount):
+    print(isOldMemberEqualNewMember, chat_id)
     if not isOldMemberEqualNewMember:
         r = requests.post("http://shayan2020.ir/Api/TelegramTabligh/user.php",
-                          data={'id': str(user_id), 'type': str(1), "lastpost": str(date)})
+                          data={'id': str(user_id_new), 'type': str(1), "lastpost": str(date)})
+        r2 = requests.post("http://shayan2020.ir/Api/TelegramTabligh/userinviteupdate.php",
+                           data={'id': str(user_id), "count": str(userinvitecount)})
+        print(r2.text)
     else:
         r = requests.post("http://shayan2020.ir/Api/TelegramTabligh/user.php",
-                          data={'id': str(user_id), 'type': str(0), "lastpost": str(date)})
+                          data={'id': str(user_id_new), 'type': str(0), "lastpost": str(date)})
 
+    print(r.text)
     response = json.loads(r.text)
     if response["items"][0]['errorcode'] == 3:
         rose = emojize(":gift:", use_aliases=True)
@@ -60,7 +63,7 @@ def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, 
 def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
     r = requests.post("http://shayan2020.ir/Api/TelegramTabligh/user.php",
                       data={'id': str(user_id), 'type': str(0), "lastpost": str(date)})
-#     print(r.text)
+    print(r.text)
     rr = json.loads(r.text)
 
     if len(rr["items"]) > 0:
@@ -81,7 +84,7 @@ def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
             bot.send_message(chat_id=chat_id,
                              text=s)
         else:
-            print()
+            print(r.text)
 
 
 def echo(bot, update):
@@ -90,7 +93,7 @@ def echo(bot, update):
     user_id = update['message']['from_user']['id']
     date = update['message']['date']
     #
-    print(user_id, date)
+    # print(user_id, date)
 
 
     # 0 is no update count 1 is update count
@@ -105,22 +108,22 @@ def echo(bot, update):
 
         if len(update['message']['new_chat_members']):
             # print(type(update['message']['new_chat_members'][0]['is_bot']))
-           for k in range(0,len(update['message']['new_chat_members'])) :
-           
-            is_bot = update['message']['new_chat_members'][k]['is_bot']
-            
-            if is_bot:
-                user_id = update['message']['new_chat_members'][k]['id']
-                message_id = update['message']['message_id']
-                manageBot(bot, user_id,update.message.chat_id,message_id)
-            else:
-                message_id = update['message']['message_id']
-                isOldMemberEqualNewMember = update['message']['from_user']['id'] == \
-                                            update['message']['new_chat_members'][k]['id']
-                first_name = update['message']['new_chat_members'][k]['first_name']
-                print(first_name,"II");
-                manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id,
-                              update.message.chat_id)
+            for u in range(0, len(update['message']['new_chat_members'])):
+                is_bot = update['message']['new_chat_members'][u]['is_bot']
+                if is_bot:
+                    user_id = update['message']['new_chat_members'][u]['id']
+                    manageBot(bot, user_id)
+                else:
+                    message_id = update['message']['message_id']
+                    if u == 0:
+                       bot.deleteMessage(update.message.chat_id, message_id)
+                    isOldMemberEqualNewMember = update['message']['from_user']['id'] == \
+                                                update['message']['new_chat_members'][u]['id']
+                    first_name = update['message']['new_chat_members'][u]['first_name']
+                    user_id_new = update['message']['new_chat_members'][u]['id']
+
+                    manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id_new, user_id,
+                                  update.message.chat_id, len(update['message']['new_chat_members']))
 
         else:
 
