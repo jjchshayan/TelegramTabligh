@@ -105,16 +105,17 @@ def echo(bot, update):
 
         if len(update['message']['new_chat_members']):
             # print(type(update['message']['new_chat_members'][0]['is_bot']))
-            is_bot = update['message']['new_chat_members'][0]['is_bot']
+           for k in range(0,len(update['message']['new_chat_members'])) 
+            is_bot = update['message']['new_chat_members'][k]['is_bot']
             if is_bot:
-                user_id = update['message']['new_chat_members'][0]['id']
+                user_id = update['message']['new_chat_members'][k]['id']
                 message_id = update['message']['message_id']
                 manageBot(bot, user_id,update.message.chat_id,message_id)
             else:
                 message_id = update['message']['message_id']
                 isOldMemberEqualNewMember = update['message']['from_user']['id'] == \
-                                            update['message']['new_chat_members'][0]['id']
-                first_name = update['message']['new_chat_members'][0]['first_name']
+                                            update['message']['new_chat_members'][k]['id']
+                first_name = update['message']['new_chat_members'][k]['first_name']
                 manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id,
                               update.message.chat_id)
 
