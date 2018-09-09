@@ -110,7 +110,7 @@ def echo(bot, update):
                 is_bot = update['message']['new_chat_members'][u]['is_bot']
                 if is_bot:
                     message_id = update['message']['message_id']
-                     bot.deleteMessage(update.message.chat_id, message_id)
+                    bot.deleteMessage(update.message.chat_id, message_id)
                     user_id = update['message']['new_chat_members'][u]['id']
                     manageBot(bot, user_id, update.message.chat_id)
                 else:
