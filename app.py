@@ -125,7 +125,7 @@ def echo(bot, update):
                     user_id_new = update['message']['new_chat_members'][u]['id']
 
                     manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id_new, user_id,
-                                  update.message.chat_id, len(update['message']['new_chat_members']))
+                                  update.message.chat_id)
 
         else:
 
