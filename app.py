@@ -30,8 +30,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 # dispatcher.add_handler(start_handler)
 
 
-def manageBot(bot, user_id):
-    bot.kickChatMember('-1001198407963', user_id, 3710)
+def manageBot(bot, user_id,chat_id):
+    bot.kickChatMember(chat_id, user_id, 3710)
 
 
 def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id_new, user_id, chat_id):
@@ -109,8 +109,10 @@ def echo(bot, update):
             for u in range(0, len(update['message']['new_chat_members'])):
                 is_bot = update['message']['new_chat_members'][u]['is_bot']
                 if is_bot:
+                    message_id = update['message']['message_id']
+                     bot.deleteMessage(update.message.chat_id, message_id)
                     user_id = update['message']['new_chat_members'][u]['id']
-                    manageBot(bot, user_id)
+                    manageBot(bot, user_id, update.message.chat_id)
                 else:
                     message_id = update['message']['message_id']
                     userinvitecount=len(update['message']['new_chat_members'])
