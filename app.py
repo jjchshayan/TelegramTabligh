@@ -31,7 +31,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 
 def manageBot(bot, user_id,chat_id):
-    bot.kickChatMember(chat_id, user_id, 3710)
+    print()
+#     bot.kickChatMember(chat_id, user_id, 3710)
 
 
 def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id_new, user_id, chat_id):
