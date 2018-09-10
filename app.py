@@ -73,7 +73,7 @@ def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
             s = rose + str(first_name) + ' کاربر ' + rose + "\n"
             s += "لطفا افراد بیشتری را دعوت کنید" + ("(" + str(userinvite) + "نفر)")
             bot.send_message(chat_id=chat_id,
-                             text=s)
+                             text=s,disable_notification=True)
         elif rr["items"][0]['errorcode'] == 4:
             userinvite = rr["items"][0]['diff']
             bot.deleteMessage(chat_id, message_id)
