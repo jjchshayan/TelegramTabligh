@@ -102,6 +102,7 @@ def echo(bot, update):
     if update['message']['left_chat_member'] is not None:
         message_id = update['message']['message_id']
         bot.deleteMessage(update.message.chat_id, message_id)
+        bot.kickChatMember(update.message.chat_id, user_id, 1)
 
     else:
 
