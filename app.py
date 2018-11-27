@@ -98,8 +98,8 @@ def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
                                       text=s)
             t = Timer(15.0, removeMessageBot, [bot, chat_id, result['message_id']])
             t.start()  # after 30 seconds, "hello, world" will be printed
-        else:
-            print(r.text)
+        #else:
+          #  print(r.text)
 
 
 def echo(bot, update):
@@ -154,7 +154,7 @@ def echo(bot, update):
 
             first_name = update['message']['from_user']['first_name']
             message_id = update['message']['message_id']
-            print(update.message.chat_id)
+#             print(update.message.chat_id)
             manageExistUser(bot, user_id, date, first_name, message_id, update.message.chat_id)
 
 
