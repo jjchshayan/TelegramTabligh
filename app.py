@@ -39,7 +39,10 @@ def manageBot(bot, user_id, chat_id):
 
 
 def removeMessageBot(bot, chat_id, message_id):
-    bot.deleteMessage(chat_id, message_id)
+    try:
+     bot.deleteMessage(chat_id, message_id)
+    except:
+     return 0
 
 
 def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id_new, user_id, chat_id):
