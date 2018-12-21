@@ -8,6 +8,7 @@ from threading import Timer
 # -*- coding: utf-8 -*-
 
 
+bot_message_id = 100000
 
 # updater = Updater(token='628591499:AAEM8_wsBtPsldKKLCr-ozepC5RId02nZGo')
 updater = Updater(token='628591499:AAEM8_wsBtPsldKKLCr-ozepC5RId02nZGo')
@@ -19,6 +20,7 @@ import logging
 import requests
 
 state = 1
+
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 
@@ -34,15 +36,12 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 
 def manageBot(bot, user_id, chat_id):
-    # print()
+    #print(user_id,"KKKKKKKKKKKKKk")
     bot.kickChatMember(chat_id, user_id, 3710)
 
 
 def removeMessageBot(bot, chat_id, message_id):
-    try:
-     bot.deleteMessage(chat_id, message_id)
-    except:
-     return 0
+    bot.deleteMessage(chat_id, message_id)
 
 
 def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, user_id_new, user_id, chat_id):
@@ -101,12 +100,24 @@ def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
                                       text=s)
             t = Timer(15.0, removeMessageBot, [bot, chat_id, result['message_id']])
             t.start()  # after 30 seconds, "hello, world" will be printed
-        #else:
-          #  print(r.text)
+        else:
+            print()
+
+
+
 
 
 def echo(bot, update):
-    # print(update)
+    global bot_message_id
+
+    # message_id = update['message']['message_id']
+    # user_id = update['message']['new_chat_members'][0]['id']
+    # bot_message_id = message_id
+    # manageBot(bot, user_id, update.message.chat_id)
+    # user_id = update['message']['new_chat_members'][0]['id']
+    # manageBot(bot, user_id, update.message.chat_id)
+
+    #print(update)
     # print( )
     # print(update['message']['forward_from']['is_bot'])
     user_id = update['message']['from_user']['id']
@@ -114,26 +125,51 @@ def echo(bot, update):
     #
     # print(user_id, date)
 
+    # for i in range(400, 475):
+    #     try:
+    #         print(i)
+    #         bot.deleteMessage(update.message.chat_id, i)
+    #         # bot_message_id = message_id
+    #     except:
+    #         print()
 
     # 0 is no update count 1 is update count
 
 
     # print((update['message']['left_chat_member']), "OOO")
     if update['message']['left_chat_member'] is not None:
+
         message_id = update['message']['message_id']
         bot.deleteMessage(update.message.chat_id, message_id)
+        if update['message']['left_chat_member']['is_bot']:
+            print(bot_message_id,message_id)
 
     else:
 
         if len(update['message']['new_chat_members']):
             # print(type(update['message']['new_chat_members'][0]['is_bot']))
             for u in range(0, len(update['message']['new_chat_members'])):
+#                 print(u,"@@@@@@@@@")
                 is_bot = update['message']['new_chat_members'][u]['is_bot']
                 if is_bot:
-                    message_id = update['message']['message_id']
-                    bot.deleteMessage(update.message.chat_id, message_id)
-                    user_id = update['message']['new_chat_members'][u]['id']
-                    manageBot(bot, user_id, update.message.chat_id)
+                    try:
+                        message_id = update['message']['message_id']
+                        user_id = update['message']['new_chat_members'][u]['id']
+                        bot_message_id = message_id
+                        manageBot(bot, user_id, update.message.chat_id)
+                        user_id_from = update['message']['from_user']['id']
+                        manageBot(bot, user_id_from, update.message.chat_id)
+                        # print("AAAAAAAA", update['message']['from_user'])
+                        # user_id = update['message']['from_user']['id'][';;']
+
+                        # manageBot(bot, user_id, update.message.chat_id)
+
+                        result = bot.deleteMessage(update.message.chat_id, message_id)
+#                         print(result)
+                    except:
+                        print()
+
+
                 else:
                     message_id = update['message']['message_id']
                     userinvitecount = len(update['message']['new_chat_members'])
@@ -153,6 +189,9 @@ def echo(bot, update):
             if update['message']['forward_from']['is_bot']:
                 message_id = update['message']['message_id']
                 bot.deleteMessage(update.message.chat_id, message_id)
+                user_id_from = update['message']['from_user']['id']
+                manageBot(bot, user_id_from, update.message.chat_id)
+
         else:
 
             first_name = update['message']['from_user']['first_name']
@@ -171,7 +210,11 @@ def unknown(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command.")
 
 
+
+
 unknown_handler = MessageHandler(Filters.command, unknown)
 dispatcher.add_handler(unknown_handler)
 
-updater.start_polling()
+updater.start_polling(poll_interval=1.0, timeout=20)
+# updater.start_polling()
+updater.idle()
