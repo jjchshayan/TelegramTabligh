@@ -69,7 +69,7 @@ def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, 
 
 
         else:
-            print()
+            pass
 
 
 def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
@@ -142,7 +142,8 @@ def echo(bot, update):
         message_id = update['message']['message_id']
         bot.deleteMessage(update.message.chat_id, message_id)
         if update['message']['left_chat_member']['is_bot']:
-            print(bot_message_id,message_id)
+           # print(bot_message_id,message_id)
+          pass
 
     else:
 
@@ -167,7 +168,7 @@ def echo(bot, update):
                         result = bot.deleteMessage(update.message.chat_id, message_id)
 #                         print(result)
                     except:
-                        print()
+                      pass
 
 
                 else:
