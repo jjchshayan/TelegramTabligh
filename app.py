@@ -101,7 +101,7 @@ def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
             t = Timer(15.0, removeMessageBot, [bot, chat_id, result['message_id']])
             t.start()  # after 30 seconds, "hello, world" will be printed
         else:
-            print()
+             bot.deleteMessage(chat_id, message_id)
 
 
 
