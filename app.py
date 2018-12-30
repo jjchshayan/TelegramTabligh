@@ -59,7 +59,7 @@ def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, 
         if response["items"][0]['errorcode'] == 3:
             rose = emojize(":gift:", use_aliases=True)
             s = rose + str(first_name) + ' خوش آمدید ' + rose
-            s += "\n" + " برای ثبت پیام لطفا ۱۰ نفر را اضافه کنید " + "\n"
+            s += "\n" + " برای ثبت پیام لطفا ۱۶ نفر را اضافه کنید " + "\n"
             s += "افراد متوجه دعوت کردن شما نخواهند شد" + " \n"
             result = bot.send_message(chat_id=chat_id,
                                       text=s)
