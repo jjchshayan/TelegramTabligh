@@ -75,9 +75,9 @@ def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, 
 def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
     r = requests.post("http://shayan2020.ir/Api/TelegramTabligh/user.php",
                       data={'id': str(user_id), 'type': str(0), "lastpost": str(date), 'GroupAllowID': chat_id})
-    # print(r.text)
+    print(r.text)
     rr = json.loads(r.text)
-
+    # print("KKKKKKK")
     if len(rr["items"]) > 0:
         if rr["items"][0]['errorcode'] == 1:
             userinvite = rr["items"][0]['userinvite']
@@ -100,8 +100,8 @@ def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
                                       text=s)
             t = Timer(15.0, removeMessageBot, [bot, chat_id, result['message_id']])
             t.start()  # after 30 seconds, "hello, world" will be printed
-        else:
-             bot.deleteMessage(chat_id, message_id)
+        # else:
+        #      bot.deleteMessage(chat_id, message_id)
 
 
 
@@ -117,7 +117,7 @@ def echo(bot, update):
     # user_id = update['message']['new_chat_members'][0]['id']
     # manageBot(bot, user_id, update.message.chat_id)
 
-    #print(update)
+    # print(update)
     # print( )
     # print(update['message']['forward_from']['is_bot'])
     user_id = update['message']['from_user']['id']
