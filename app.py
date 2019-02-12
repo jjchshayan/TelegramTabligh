@@ -1,5 +1,6 @@
+from pip._vendor.requests.packages.urllib3 import util
 from telegram.ext import Updater
-from telegram import bot
+from telegram import bot, InlineKeyboardButton, InlineKeyboardMarkup
 from emoji import emojize
 import json
 from threading import Timer
@@ -11,8 +12,8 @@ from threading import Timer
 bot_message_id = 100000
 
 # updater = Updater(token='628591499:AAEM8_wsBtPsldKKLCr-ozepC5RId02nZGo')
-updater = Updater(token='628591499:AAEM8_wsBtPsldKKLCr-ozepC5RId02nZGo')
-# updater = Updater(token='660812730:AAEGP-xXkMKoplHR6YsUECqXB8diNgvlfbs')
+updater = Updater(token='628591499:AAEM8_wsBtPsldKKLCr-ozepC5RId02nZGo') #tablighatRaygan
+# updater = Updater(token='660812730:AAEGP-xXkMKoplHR6YsUECqXB8diNgvlfbs') # GoleMaryamBot
 
 dispatcher = updater.dispatcher
 
@@ -61,8 +62,12 @@ def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, 
             s = rose + str(first_name) + ' خوش آمدید ' + rose
             s += "\n" + " برای ثبت پیام لطفا ۱۶ نفر را اضافه کنید " + "\n"
             s += "افراد متوجه دعوت کردن شما نخواهند شد" + " \n"
+            keyboard = [[InlineKeyboardButton("محصولات دکوآرت", url='https://t.me/deccoArt', callback_data='@deccoArt'),
+                         ]]
+
+            reply_markup = InlineKeyboardMarkup(keyboard)
             result = bot.send_message(chat_id=chat_id,
-                                      text=s)
+                                      text=s,  disable_notification=True,reply_markup=reply_markup)
 
             t = Timer(15.0, removeMessageBot, [bot, chat_id, result['message_id']])
             t.start()  # after 30 seconds, "hello, world" will be printed
@@ -71,11 +76,22 @@ def manageNewUser(bot, message_id, isOldMemberEqualNewMember, first_name, date, 
         else:
             pass
 
+def build_menu(buttons,
+               n_cols,
+               header_buttons=None,
+               footer_buttons=None):
+    menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
+    if header_buttons:
+        menu.insert(0, header_buttons)
+    if footer_buttons:
+        menu.append(footer_buttons)
+    return menu
+
 
 def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
     r = requests.post("http://shayan2020.ir/Api/TelegramTabligh/user.php",
                       data={'id': str(user_id), 'type': str(0), "lastpost": str(date), 'GroupAllowID': chat_id})
-    print(r.text)
+    print(r.text,"   ",chat_id)
     rr = json.loads(r.text)
     # print("KKKKKKK")
     if len(rr["items"]) > 0:
@@ -85,8 +101,16 @@ def manageExistUser(bot, user_id, date, first_name, message_id, chat_id):
             rose = emojize(":gift:", use_aliases=True)
             s = rose + str(first_name) + ' کاربر ' + rose + "\n"
             s += "لطفا افراد بیشتری را دعوت کنید" + ("(" + str(userinvite) + "نفر)")
+
+            keyboard = [[InlineKeyboardButton("محصولات دکوآرت", url='https://t.me/deccoArt', callback_data='@deccoArt'),
+                         ]]
+
+            reply_markup = InlineKeyboardMarkup(keyboard)
             result = bot.send_message(chat_id=chat_id,
-                                      text=s, disable_notification=True)
+                                      text=s, disable_notification=True, reply_markup=reply_markup)
+
+
+
 
             t = Timer(15.0, removeMessageBot, [bot, chat_id, result['message_id']])
             t.start()  # after 30 seconds, "hello, world" will be printed
