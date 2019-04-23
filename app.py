@@ -173,26 +173,30 @@ def echo(bot, update):
                 #                 print(u,"@@@@@@@@@")
                 is_bot = update['message']['new_chat_members'][u]['is_bot']
                 if is_bot:
+                    try
+                        message_id = update['message']['message_id']
+                        user_id = update['message']['new_chat_members'][u]['id']
+                        bot_message_id = message_id
+                        try:
+                            manageBot(bot, user_id, update.message.chat_id)
+                        except:
+                            print()
+                        try:
+                            user_id_from = update['message']['from_user']['id']
+                            manageBot(bot, user_id_from, update.message.chat_id)
+                        except:
+                            print()
+                        # print("AAAAAAAA", update['message']['from_user'])
+                        # user_id = update['message']['from_user']['id'][';;']
 
-                    message_id = update['message']['message_id']
-                    user_id = update['message']['new_chat_members'][u]['id']
-                    bot_message_id = message_id
-                    try:
-                        manageBot(bot, user_id, update.message.chat_id)
+                        # manageBot(bot, user_id, update.message.chat_id)
+                        try:
+                         result = bot.deleteMessage(update.message.chat_id, message_id)
+                    #                         print(result)
+                        except:
+                            print()
                     except:
                         print()
-                    try:
-                        user_id_from = update['message']['from_user']['id']
-                        manageBot(bot, user_id_from, update.message.chat_id)
-                    except:
-                        print()
-                    # print("AAAAAAAA", update['message']['from_user'])
-                    # user_id = update['message']['from_user']['id'][';;']
-
-                    # manageBot(bot, user_id, update.message.chat_id)
-
-                    result = bot.deleteMessage(update.message.chat_id, message_id)
-                #                         print(result)
 
                 else:
                     message_id = update['message']['message_id']
