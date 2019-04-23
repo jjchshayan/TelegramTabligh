@@ -173,7 +173,7 @@ def echo(bot, update):
                 #                 print(u,"@@@@@@@@@")
                 is_bot = update['message']['new_chat_members'][u]['is_bot']
                 if is_bot:
-                    try
+                    try:
                         message_id = update['message']['message_id']
                         user_id = update['message']['new_chat_members'][u]['id']
                         bot_message_id = message_id
