@@ -38,7 +38,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 def manageBot(bot, user_id, chat_id):
     #print(user_id,"KKKKKKKKKKKKKk")
-    bot.kickChatMember(chat_id, user_id, 3710)
+    #bot.kickChatMember(chat_id, user_id, 3710)
+    bot.restrictChatMember(chat_id=chat_id, user_id=user_id ,until_date=3710 , can_send_messages=False,can_send_media_messages=False,can_send_other_messages=False,can_add_web_page_previews=False)
 
 
 def removeMessageBot(bot, chat_id, message_id):
